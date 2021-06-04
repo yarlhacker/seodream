@@ -21,18 +21,18 @@ def index(request):
 
 @csrf_exempt 
 def post_contact(request):
-    success , msg = True , 'valider'
+    success , msg = True , 'Votre message a bien été envoyer'
     users = json.loads(request.POST.get('users'))
     
     for user in users:
         if not user.get('name') or user.get('name').isspace() :
-           sucess = False
+           success = False
            mgs = 'veuillez entre votre nom'
         elif not user.get('surname') or user.get('surname').isspace():
-           sucess = False
+           sucsess = False
            mgs = 'veuillez entre votre surnom'
         elif not user.get('email') or user.get('email').isspace():
-           sucess = False
+           success = False
            mgs = 'veuillez entre votre email'
         else:
             contacts = models_service.Contact()
@@ -45,7 +45,7 @@ def post_contact(request):
 
     datas = {
 
-        'sucess':sucess,
+        'success':success,
         'message': msg 
     }
     return JsonResponse(datas, safe= False)

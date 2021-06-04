@@ -456,6 +456,8 @@ https://templatemo.com/tm-563-seo-dream
 
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 
  <script>
   
@@ -475,26 +477,30 @@ https://templatemo.com/tm-563-seo-dream
 
           }
           ]
-        },
+        }, 
         methods : {
             envoye(){
             let myForm = new FormData();
             myForm.append('users', JSON.stringify(this.lines))
             axios.defaults.xsrfCookieName = 'XSRF-TOKEN'
             axios.defaults.xsrfHeaderName = 'X-XSRF-TOKEN'
-            axios.post("{% url 'contact' %}" , myForm ,{})
-            .then((response)=>{
-              if (reponse.data.success == true){
+            axios.post("{% url 'contact' %}" , myForm)
+            .then((response) => {
+              if (response.data.success){
                 this.lines = [{'name' : '','surname': '','email': '','subject': '','message': ''}]
+                Swal.fire({
+                          icon: 'success',
+                          title: 'Felicitation',
+                          text: response.data.message,
+                          footer: '<a href="">Why do I have this issue?</a>'
+                        })
               }
-              else {
-                console.log('None')
-              }
+
             })
+
             .catch(function(error) {
               console.log(error)
             });
-
         },
           
         }
